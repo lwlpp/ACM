@@ -1,0 +1,27 @@
+贪心，暴力。
+要使得多集合含有n个数，最后结果一定全是1。
+每次贪心将数拆出k-1个1，剩下一个数要是大于1继续一样拆。
+比如n=8,k=3。
+8->1,1,6
+6->1,1,4
+4->1,1,2
+2->1,1
+最少4次
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		int n,k;
+		cin>>n>>k;
+		int ans=0;
+		while(n>1){
+			n-=k-1;
+			ans++;
+		}
+		cout<<ans<<endl;
+	} 
+} 

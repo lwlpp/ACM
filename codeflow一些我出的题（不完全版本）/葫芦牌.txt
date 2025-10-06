@@ -1,0 +1,65 @@
+记录每个数字出现的次数，写个双循环枚举a和b（1~13)和(1~13)，首先判断符合葫芦牌不，即总牌面值之和不能超过max，a要超过三张，b要超过2张，a和b不能相同，若符合葫芦牌条件再优先比较a的等级，一样的话再比较b的等级，找到最大等级的葫芦牌组合
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void solve(int n,int ma,int array[])
+{
+	//每个数字的优先级，从高到低，不存在0这个数字，所以优先级最低 
+	int p[14]={1,13,12,11,10,9,8,7,6,5,4,3,2,0};
+	//记录每个数字的下标 index[数字]=下标 下标越小优先级越高
+    int index[14];
+    for(int i=0;i<14;i++)
+    {
+        index[p[i]]=i;
+    }
+	
+    int cnt[14];//1~13数字出现次数 
+    for(int i=0;i<14;i++)
+    {
+        cnt[i]=0;//初始化 
+    }
+    for(int i=0;i<n;i++)
+    {
+        cnt[array[i]]++;
+    }
+    
+    //三张相同牌面值的牌 a和另外两张相同牌面值的牌b
+    int a=0,b=0;
+    //枚举组合,a=(1~13) and b=(1~13) 
+    for(int i=1;i<=13;i++)
+    {
+        for(int j=1;j<=13;j++)
+        {
+            if(j==i)//牌a和牌b不能相同 
+                continue;
+            if(cnt[i]<3 || cnt[j]<2)//至少三张牌a 至少两张牌b 
+                continue;
+            int temp=i*3+j*2;//总和不能超过ma 
+            if(temp>ma)
+                continue;
+            
+            if(index[a]>index[i])//先比较a，a要优先级高的 
+            {
+                a=i,b=j;
+            }
+            else if(index[a]==index[i] && index[b]>index[j])//若a相同再比较b，b要优先级高的 
+            {
+                b=j;
+            }
+        }
+    }
+    cout<<a<<" "<<b<<endl; 
+}
+
+int main() 
+{
+	int n;
+	cin>>n;
+	int ma;
+	cin>>ma;
+	int array[n];
+	for(int i=0;i<n;i++)
+		cin>>array[i];
+	solve(n,ma,array);
+}
